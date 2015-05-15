@@ -25,3 +25,6 @@
 [submodule "bundle/landscape.vim"]
 	path = bundle/landscape.vim
 	url = https://github.com/itchyny/landscape.vim
+[submodule "bundle/vim-sensible"]
+	path = bundle/vim-sensible
+	url = https://github.com/tpope/vim-sensible
