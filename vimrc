@@ -7,3 +7,6 @@ colorscheme landscape
 if has('unix')
 	set t_Co=256
 endif
+
+" Cool trick to save when you forget to start vim using sudo
+cmap w!! w !sudo tee > /dev/null %
