@@ -1,5 +1,7 @@
 " Pathogen modules
+filetype off
 execute pathogen#infect()
+execute pathogen#helptags()
 " Syntax highlighting
 syntax on
 filetype plugin indent on
@@ -31,6 +33,14 @@ cmap w!! w !sudo tee > /dev/null %
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+" Python Mode configuration
+let g:pymode_folding = 0
+let g:pymode_doc = 0
+let g:pymode_virtualenv = 1
+let g:pymode_run = 0
+let g:pymode_lint = 0
+let g:pymode_rope_completion = 0
 
 " Auto quit the Insert mode when moving further than 3 lines.
 autocmd InsertEnter * let s:insertLineStart = line(".")
