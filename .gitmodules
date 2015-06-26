@@ -39,7 +39,7 @@
 	url = git://github.com/pivotal/tmux-config.git
 [submodule "bundle/tmux-config"]
 	path = bundle/tmux-config
-	url = git://github.com/pivotal/tmux-config.git
+	url = git://github.com/RaitoBezarius/tmux-config.git
 [submodule "bundle/vim-snippets"]
 	path = bundle/vim-snippets
 	url = https://github.com/honza/vim-snippets
