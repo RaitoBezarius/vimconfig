@@ -64,3 +64,6 @@ inoremap <expr> <Up>   <SID>InsertModeUp()
 
 " Clear search highlighting
 nmap <silent> ,/ :nohlsearch<CR>
+
+" Kick from Insert mode when completing
+au TabEnter * stopinsert
