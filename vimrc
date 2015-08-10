@@ -42,6 +42,9 @@ let g:pymode_run = 0
 let g:pymode_lint = 0
 let g:pymode_rope = 0
 
+" Let's ignore some folders with CtrlP
+let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn|node_modules)$'
+
 " Auto quit the Insert mode when moving further than 3 lines.
 autocmd InsertEnter * let s:insertLineStart = line(".")
 
