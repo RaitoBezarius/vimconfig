@@ -19,6 +19,20 @@ set wildignore=*.swp,*.pyc,*.o
 set laststatus=2
 " Change terminal title
 set title
+" Lazy redrawing when executing macros
+set lazyredraw
+" Visual autocomplete
+set wildmenu
+" Highlight matching
+set showmatch
+" Enable folding
+set foldenable
+" Open all default fold at level <= 10
+set foldlevelstart=10
+" Nested folding level max = 10
+set foldnestmax=10
+" Folding by indentation
+set foldmethod=indent
 " Paste shortcut
 set pastetoggle=<F2>
 colorscheme landscape
@@ -42,8 +56,17 @@ let g:pymode_run = 0
 let g:pymode_lint = 0
 let g:pymode_rope = 0
 
-" Let's ignore some folders with CtrlP
-let g:ctrlp_custom_ignore = '\v[\/](\.(git|hg|svn))|(node_modules)$'
+" Jedi vim
+let g:jedi#popup_on_dot = 0
+
+" Let's ignore stupid things
+" let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist)|(\.(swp|ico|git|svn))$'
+" Now, .agignore is the ignorer file.
+" Let's make CtrlP awesome
+let g:ctrlp_match_window = 'bottom,order:ttb'
+let g:ctrlp_switch_buffer = 0
+let g:ctrlp_working_path_mode = 0
+let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
 
 " Auto quit the Insert mode when moving further than 3 lines.
 autocmd InsertEnter * let s:insertLineStart = line(".")
@@ -67,6 +90,12 @@ inoremap <expr> <Up>   <SID>InsertModeUp()
 
 " Clear search highlighting
 nmap <silent> ,/ :nohlsearch<CR>
+" Open / close folds
+nnoremap <space> za
+" highlight last inserted text
+nnoremap gV `[v`]
+" Escape duplicate because Esc is too far from me
+inoremap jk <esc>
 
 " Kick from Insert mode when completing
 au TabEnter * stopinsert
