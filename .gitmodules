@@ -55,3 +55,6 @@
 [submodule "bundle/python-mode"]
 	path = bundle/python-mode
 	url = git://github.com/klen/python-mode.git
+[submodule "bundle/filestyle"]
+	path = bundle/filestyle
+	url = https://github.com/aserebryakov/filestyle.git
