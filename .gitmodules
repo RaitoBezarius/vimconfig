@@ -79,3 +79,9 @@
 [submodule "bundle/vim-gitgutter"]
 	path = bundle/vim-gitgutter
 	url = https://github.com/airblade/vim-gitgutter
+[submodule "bundle/jellybeans.vim"]
+	path = bundle/jellybeans.vim
+	url = https://github.com/nanotech/jellybeans.vim
+[submodule "bundle/es.next.syntax.vim"]
+	path = bundle/es.next.syntax.vim
+	url = https://github.com/othree/es.next.syntax.vim
