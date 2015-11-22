@@ -35,7 +35,7 @@ set foldnestmax=10
 set foldmethod=indent
 " Paste shortcut
 set pastetoggle=<F2>
-colorscheme landscape
+colorscheme mango
 if has('unix')
 	set t_Co=256
 endif
@@ -47,6 +47,9 @@ cmap w!! w !sudo tee > /dev/null %
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+" Used libraries
+let g:used_javascript_libs = 'underscore,react,flux'
 
 " Python Mode configuration
 let g:pymode_folding = 0
