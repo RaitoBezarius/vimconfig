@@ -35,7 +35,7 @@ set foldnestmax=10
 set foldmethod=indent
 " Paste shortcut
 set pastetoggle=<F2>
-colorscheme mango
+colorscheme jellybeans
 if has('unix')
 	set t_Co=256
 endif
