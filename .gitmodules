@@ -91,3 +91,6 @@
 [submodule "bundle/nerdtree"]
 	path = bundle/nerdtree
 	url = https://github.com/scrooloose/nerdtree
+[submodule "bundle/vim-tmux-focus-events"]
+	path = bundle/vim-tmux-focus-events
+	url = git://github.com/tmux-plugins/vim-tmux-focus-events.git
