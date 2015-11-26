@@ -33,6 +33,8 @@ set foldlevelstart=10
 set foldnestmax=10
 " Folding by indentation
 set foldmethod=indent
+" Prevent Webpack from missing the write event
+set backupcopy=yes
 " Paste shortcut
 set pastetoggle=<F2>
 colorscheme jellybeans
