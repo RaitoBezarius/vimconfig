@@ -104,3 +104,10 @@ inoremap jk <esc>
 
 " Kick from Insert mode when completing
 au TabEnter * stopinsert
+
+" LaTeX specific
+autocmd FileType tex let b:vimtex_main = 'main.tex'
+autocmd FileType tex let g:vimtex_enabled = 1
+autocmd FileType tex let g:vimtex_imaps_leader = ','
+autocmd FileType tex let g:vimtex_view_method = 'mupdf'
+autocmd FileType tex nmap <silent> ,v :VimtexView<CR>
