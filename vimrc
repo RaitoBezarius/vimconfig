@@ -81,6 +81,9 @@ let g:ctrlp_switch_buffer = 0
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
 
+" Prevent Vim slowness with very long lines
+set synmaxcol=300
+
 " Auto quit the Insert mode when moving further than 3 lines.
 autocmd InsertEnter * let s:insertLineStart = line(".")
 
