@@ -52,6 +52,9 @@ let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
+" Jinja 2 autodetection
+let g:htmljinja_disable_detection = 1
+
 " Used libraries
 let g:used_javascript_libs = 'underscore,react,flux'
 
