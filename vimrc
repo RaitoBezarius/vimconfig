@@ -127,8 +127,6 @@ nnoremap gV `[v`]
 " Escape duplicate because Esc is too far from me
 inoremap jk <esc>
 
-" Kick from Insert mode when completing
-au TabEnter * stopinsert
 
 " LaTeX specific
 autocmd FileType tex let b:vimtex_main = 'main.tex'
