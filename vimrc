@@ -37,9 +37,11 @@ set foldmethod=indent
 set backupcopy=yes
 " Paste shortcut
 set pastetoggle=<F2>
+" Expand tabs
+set expandtab
 colorscheme jellybeans
 if has('unix')
-	set t_Co=256
+        set t_Co=256
 endif
 
 " Cool trick to save when you forget to start vim using sudo
