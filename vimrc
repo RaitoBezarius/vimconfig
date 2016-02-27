@@ -58,6 +58,9 @@ let g:htmljinja_disable_detection = 1
 " Used libraries
 let g:used_javascript_libs = 'underscore,react,flux'
 
+" JSX
+let g:jsx_ext_required = 0
+
 " Python Mode configuration
 let g:pymode_folding = 0
 let g:pymode_doc = 0
