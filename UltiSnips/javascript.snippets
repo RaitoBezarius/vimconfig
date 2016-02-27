@@ -1,12 +1,14 @@
 snippet imco "Components' import"
-import React from 'react';
+import React from 'react'
 endsnippet
 
 snippet exco "Export a new React component"
-export default class ${1} extends React.Component {
-  render() {
-     return (
-     );
+export class ${1} extends React.Component {
+  render () {
+    return (
+    )
   }
 }
+
+export default $1
 endsnippet
