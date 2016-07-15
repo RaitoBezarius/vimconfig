@@ -37,9 +37,12 @@ set foldmethod=indent
 set backupcopy=yes
 " Paste shortcut
 set pastetoggle=<F2>
+" Hidden mode for buffers to avoid saving the current buffer every time I do a
+" goto-definition
+set hidden
 " Expand tabs
 set expandtab
-colorscheme jellybeans
+colorscheme hybrid_material
 if has('unix')
         set t_Co=256
 endif
@@ -61,17 +64,6 @@ let g:used_javascript_libs = 'underscore,react,flux'
 " JSX
 let g:jsx_ext_required = 0
 
-" Python Mode configuration
-let g:pymode_folding = 0
-let g:pymode_doc = 0
-let g:pymode_virtualenv = 1
-let g:pymode_run = 0
-let g:pymode_lint = 0
-let g:pymode_rope = 0
-
-" Jedi vim
-let g:jedi#popup_on_dot = 0
-
 " Let's ignore stupid things
 " let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist)|(\.(swp|ico|git|svn))$'
 " Now, .agignore is the ignorer file.
@@ -81,25 +73,12 @@ let g:ctrlp_switch_buffer = 0
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
 
+" Vim for JSDoc
+let g:jsdoc_allow_input_prompt = 1
+let g:jsdoc_enable_es6 = 1
+
 " Prevent Vim slowness with very long lines
 set synmaxcol=300
-
-" Auto quit the Insert mode when moving further than 3 lines.
-autocmd InsertEnter * let s:insertLineStart = line(".")
-
-function! <SID>InsertModeDown()
-    if line(".") > s:insertLineStart + 1
-        stopinsert
-    endif
-    return "\<Down>"
-endfunction
-
-function! <SID>InsertModeUp()
-    if line(".") < s:insertLineStart - 1
-        stopinsert
-    endif
-    return "\<Up>"
-endfunction
 
 " Pandoc config
 let g:pandoc#spell#default_langs = ['fr', 'en', 'es']
@@ -115,8 +94,6 @@ if exists('$TMUX')
     let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
 endif
 
-inoremap <expr> <Down> <SID>InsertModeDown()
-inoremap <expr> <Up>   <SID>InsertModeUp()
 
 " Clear search highlighting
 nmap <silent> ,/ :nohlsearch<CR>
@@ -134,3 +111,39 @@ autocmd FileType tex let g:vimtex_enabled = 1
 autocmd FileType tex let g:vimtex_imaps_leader = ','
 autocmd FileType tex let g:vimtex_view_method = 'mupdf'
 autocmd FileType tex nmap <silent> ,v :VimtexView<CR>
+
+" Python specific
+autocmd FileType python let python_highlight_all = 1
+
+" Auto linting everywhere
+autocmd! BufWritePost,BufEnter * Neomake
+
+" Fast folding
+let g:tex_fold_enabled = 1
+let g:markdown_fold_enabled = 1
+
+" Use deoplete.
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_smart_case = 1
+
+" Rust completion
+let g:racer_cmd = "/usr/sbin/racer"
+let $RUST_SRC_PATH = "/home/raito/dev/rust/src"
+
+" JavaScript completion
+let g:tern_request_timeout = 3
+let g:tern_show_signature_in_pum = 0  " This do disable full signature type on autocomplete
+let g:tern_show_argument_hints = 'on_hold'
+
+" <C-h>, <BS>: close popup and delete backword char.
+inoremap <expr><C-h> deoplete#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> deoplete#smart_close_popup()."\<C-h>"
+
+" <CR>: close popup and save indent.
+inoremap <silent> <CR> <C-r>=<SID>cr_function()<CR>
+function! s:cr_function() abort
+        return deoplete#close_popup() . "\<CR>"
+endfunction
+
+let g:python3_host_prog = '/usr/bin/python3'
+let g:python_host_prog = '/usr/bin/python2'
