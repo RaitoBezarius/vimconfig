@@ -49,9 +49,6 @@
 [submodule "bundle/vim-javascript"]
 	path = bundle/vim-javascript
 	url = https://github.com/pangloss/vim-javascript
-[submodule "bundle/jedi-vim"]
-	path = bundle/jedi-vim
-	url = https://github.com/davidhalter/jedi-vim.git
 [submodule "bundle/python-mode"]
 	path = bundle/python-mode
 	url = git://github.com/klen/python-mode.git
@@ -124,12 +121,6 @@
 [submodule "bundle/neomake"]
 	path = bundle/neomake
 	url = https://github.com/neomake/neomake
-[submodule "bundle/deoplete-jedi"]
-	path = bundle/deoplete-jedi
-	url = https://github.com/zchee/deoplete-jedi
-[submodule "bundle/echodoc.vim"]
-	path = bundle/echodoc.vim
-	url = https://github.com/Shougo/echodoc.vim
 [submodule "bundle/neoinclude.vim"]
 	path = bundle/neoinclude.vim
 	url = https://github.com/Shougo/neoinclude.vim
