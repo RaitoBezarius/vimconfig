@@ -1,0 +1,1 @@
+/home/raito/dev/python-syntax/syntax/python.vim

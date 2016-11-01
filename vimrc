@@ -37,11 +37,11 @@ set foldmethod=indent
 set backupcopy=yes
 " Paste shortcut
 set pastetoggle=<F2>
-" Hidden mode for buffers to avoid saving the current buffer every time I do a
-" goto-definition
-set hidden
 " Expand tabs
 set expandtab
+" Clipboard X11
+set clipboard+=unnamedplus
+
 colorscheme hybrid_material
 if has('unix')
         set t_Co=256
@@ -49,6 +49,11 @@ endif
 
 " Cool trick to save when you forget to start vim using sudo
 cmap w!! w !sudo tee > /dev/null %
+
+" Enable auto-complete
+let g:deoplete#enable_at_startup = 1
+let g:python3_host_prog="/home/raito/.virtualenvs/neovim/bin/python3"
+let g:python_host_prog="/home/raito/.virtualenvs/neovim2/bin/python2"
 
 " Expansion triggers for UltiSnips
 let g:UltiSnipsExpandTrigger="<tab>"
@@ -73,15 +78,16 @@ let g:ctrlp_switch_buffer = 0
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
 
-" Vim for JSDoc
-let g:jsdoc_allow_input_prompt = 1
-let g:jsdoc_enable_es6 = 1
-
 " Prevent Vim slowness with very long lines
 set synmaxcol=300
 
 " Pandoc config
 let g:pandoc#spell#default_langs = ['fr', 'en', 'es']
+let g:pandoc#command#autoexec_on_writes = 1
+let g:pandoc#command#autoexec_command = 'Pandoc! pdf'
+let g:pandoc#syntax#conceal#use = 0
+
+let maplocalleader = ','
 
 " Use a blinking upright bar cursor in Insert mode, a blinking block in normal
 if &term == 'xterm-256color' || &term == 'screen-256color'
@@ -114,36 +120,4 @@ autocmd FileType tex nmap <silent> ,v :VimtexView<CR>
 
 " Python specific
 autocmd FileType python let python_highlight_all = 1
-
-" Auto linting everywhere
-autocmd! BufWritePost,BufEnter * Neomake
-
-" Fast folding
-let g:tex_fold_enabled = 1
-let g:markdown_fold_enabled = 1
-
-" Use deoplete.
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#enable_smart_case = 1
-
-" Rust completion
-let g:racer_cmd = "/usr/sbin/racer"
-let $RUST_SRC_PATH = "/home/raito/dev/rust/src"
-
-" JavaScript completion
-let g:tern_request_timeout = 3
-let g:tern_show_signature_in_pum = 0  " This do disable full signature type on autocomplete
-let g:tern_show_argument_hints = 'on_hold'
-
-" <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr><C-h> deoplete#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> deoplete#smart_close_popup()."\<C-h>"
-
-" <CR>: close popup and save indent.
-inoremap <silent> <CR> <C-r>=<SID>cr_function()<CR>
-function! s:cr_function() abort
-        return deoplete#close_popup() . "\<CR>"
-endfunction
-
-let g:python3_host_prog = '/usr/bin/python3'
-let g:python_host_prog = '/usr/bin/python2'
+autocmd FileType python let g:pymode_lint_ignore = "E501"
