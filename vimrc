@@ -1,10 +1,72 @@
-" Pathogen modules
-filetype off
-execute pathogen#infect()
-execute pathogen#helptags()
+if &shell =~# 'fish$'
+    set shell=bash
+endif
+
+call plug#begin('~/.vim/plugged')
+
+Plug 'let-def/ocp-indent-vim', { 'for': 'ocaml' }
+Plug 'ocaml/merlin', { 'rtp': 'vim', 'for': 'ocaml' }
+Plug 'Konfekt/FastFold'
+Plug 'Shougo/context_filetype.vim'
+Plug 'airblade/vim-gitgutter'
+Plug 'dag/vim-fish'
+Plug 'tmux-plugins/vim-tmux-focus-events'
+" Plug 'racer-rust/vim-racer'
+Plug 'hail2u/vim-css3-syntax', { 'for': 'css' }
+Plug 'mxw/vim-jsx', { 'for': 'javascript '}
+Plug 'kien/ctrlp.vim'
+Plug 'goatslacker/mango.vim'
+Plug 'vim-pandoc/vim-pandoc'
+Plug 'Shougo/neoinclude.vim'
+Plug 'tpope/vim-markdown', { 'for': 'markdown' }
+Plug 'pearofducks/ansible-vim'
+" Plug 'elixir-lang/vim-elixir'
+Plug 'wting/rust.vim', { 'for': 'rust '}
+Plug 'tpope/vim-dispatch'
+Plug 'lervag/vimtex', { 'for': 'latex' }
+Plug 'neomake/neomake'
+if !has('nvim')
+        Plug 'tpope/vim-sensible'
+end
+Plug 'gkz/vim-ls', { 'for': 'livescript' }
+" Plug 'klen/python-mode'
+" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" Plug 'zchee/deoplete-jedi'
+Plug 'othree/javascript-libraries-syntax.vim', { 'for': 'javascript' }
+Plug 'Shougo/context_filetype.vim'
+Plug 'SirVer/ultisnips'
+Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
+Plug 'mitsuhiko/vim-jinja', { 'for': 'jinja2' }
+Plug 'itchyny/landscape.vim'
+Plug 'othree/es.next.syntax.vim', { 'for': 'javascript' }
+Plug 'wavded/vim-stylus', { 'for': 'stylus' }
+Plug 'editorconfig/editorconfig-vim'
+Plug 'vim-pandoc/vim-pandoc-syntax', { 'for': 'pandoc' }
+Plug 'flazz/vim-colorschemes'
+Plug 'othree/html5.vim', { 'for': 'html' }
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-haml', { 'for': 'haml' }
+Plug 'RaitoBezarius/vim-snippets'
+Plug 'heavenshell/vim-jsdoc', { 'for': 'javascript' }
+Plug 'elzr/vim-json', { 'for': 'json' }
+Plug 'othree/yajs.vim', { 'for': 'javascript' }
+" Plug 'digitaltoad/vim-pug'
+Plug 'nanotech/jellybeans.vim'
+Plug '~/.vim/bundle/tmux-config'
+Plug 'morhetz/gruvbox'
+Plug 'Shougo/echodoc'
+Plug 'dylanaraps/wal'
+Plug 'altercation/vim-colors-solarized'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
+call plug#end()
+
 " Syntax highlighting
 syntax on
 filetype plugin indent on
+" Nullify timeout
+set ttimeoutlen=-1
 " Line numbers
 set number
 " Highlight search results
@@ -42,18 +104,39 @@ set expandtab
 " Clipboard X11
 set clipboard+=unnamedplus
 
-colorscheme hybrid_material
-if has('unix')
-        set t_Co=256
-endif
+set t_Co=256
+let g:solarized_termcolors=256
+
+colorscheme solarized
+set termguicolors
+set background=dark
 
 " Cool trick to save when you forget to start vim using sudo
 cmap w!! w !sudo tee > /dev/null %
 
-" Enable auto-complete
-let g:deoplete#enable_at_startup = 1
+" Run Neomake on every write
+autocmd! BufWritePost * Neomake
+let g:neomake_python_enabled_makers = ['python', 'pylint', 'mypy']
+let g:neomake_pandoc_enabled_makers = []
+
+" Dismiss the preview
+autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
+autocmd InsertLeave * if pumvisible() == 0|pclose|endif
+
+" Python-specific
 let g:python3_host_prog="/home/raito/.virtualenvs/neovim/bin/python3"
 let g:python_host_prog="/home/raito/.virtualenvs/neovim2/bin/python2"
+let g:python2_host_prog="/home/raito/.virtualenvs/neovim2/bin/python2"
+" Python specific
+augroup Python
+        autocmd FileType python let g:pymode_lint_ignore = "E501"
+        autocmd FileType python let g:python_highlight_all = 1
+        autocmd FileType python let g:pymode_rope = 0
+        " Python auto-completion through Jedi
+        autocmd FileType python let deoplete#sources#jedi#show_docstring = 0
+        autocmd FileType python let g:pymode_lint = 0
+augroup end
+
 
 " Expansion triggers for UltiSnips
 let g:UltiSnipsExpandTrigger="<tab>"
@@ -76,10 +159,10 @@ let g:jsx_ext_required = 0
 let g:ctrlp_match_window = 'bottom,order:ttb'
 let g:ctrlp_switch_buffer = 0
 let g:ctrlp_working_path_mode = 0
-let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
+let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden --ignore ".git" -g ""'
 
 " Prevent Vim slowness with very long lines
-set synmaxcol=300
+set synmaxcol=600
 
 " Pandoc config
 let g:pandoc#spell#default_langs = ['fr', 'en', 'es']
@@ -96,8 +179,8 @@ if &term == 'xterm-256color' || &term == 'screen-256color'
 endif
 
 if exists('$TMUX')
-    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
-    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+   let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+   let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
 endif
 
 
@@ -110,14 +193,39 @@ nnoremap gV `[v`]
 " Escape duplicate because Esc is too far from me
 inoremap jk <esc>
 
-
 " LaTeX specific
-autocmd FileType tex let b:vimtex_main = 'main.tex'
-autocmd FileType tex let g:vimtex_enabled = 1
-autocmd FileType tex let g:vimtex_imaps_leader = ','
-autocmd FileType tex let g:vimtex_view_method = 'mupdf'
-autocmd FileType tex nmap <silent> ,v :VimtexView<CR>
+augroup LaTeX
+        autocmd FileType tex let b:vimtex_main = 'main.tex'
+        autocmd FileType tex let g:vimtex_enabled = 1
+        autocmd FileType tex let g:vimtex_imaps_leader = ','
+        autocmd FileType tex let g:vimtex_view_method = 'evince'
+        autocmd FileType tex nmap <silent> ,v :VimtexView<CR>
+augroup end
 
-" Python specific
-autocmd FileType python let python_highlight_all = 1
-autocmd FileType python let g:pymode_lint_ignore = "E501"
+" OCaml specific
+augroup OCaml
+        autocmd FileType ocaml set expandtab
+        autocmd FileType ocaml source '"$(opam config var prefix)"/ocp-indent/vim/indent/ocp-indent.vim'
+augroup end
+
+" Powerline related
+let g:airline_theme='luna'
+let g:airline_powerline_fonts = 1
+
+" Ensure that EditorConfig works well with Fugitive
+let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
+
+" FUCKING YAML
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+autocmd FileType ansible setlocal ts=2 sts=2 sw=2 expandtab
+
+" ************* For Fish *************
+
+" Set up :make to use fish for syntax checking.
+autocmd FileType fish compiler fish
+
+" Set this to have long lines wrap inside comments.
+autocmd FileType fish setlocal textwidth=79
+
+" Enable folding of block structures in fish.
+autocmd FileType fish setlocal foldmethod=expr
