@@ -4,64 +4,70 @@ endif
 
 call plug#begin('~/.vim/plugged')
 
-Plug 'let-def/ocp-indent-vim', { 'for': 'ocaml' }
-Plug 'ocaml/merlin', { 'rtp': 'vim', 'for': 'ocaml' }
+Plug 'let-def/ocp-indent-vim'
+" Plug 'ocaml/merlin'
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': './install.sh',
+    \ }
+Plug 'junegunn/fzf'
 Plug 'Konfekt/FastFold'
 Plug 'Shougo/context_filetype.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'dag/vim-fish'
-Plug 'tmux-plugins/vim-tmux-focus-events'
+" Plug 'tmux-plugins/vim-tmux-focus-events'
 " Plug 'racer-rust/vim-racer'
 Plug 'hail2u/vim-css3-syntax', { 'for': 'css' }
-Plug 'mxw/vim-jsx', { 'for': 'javascript '}
+" Plug 'mxw/vim-jsx', { 'for': 'javascript '}
 Plug 'kien/ctrlp.vim'
-Plug 'goatslacker/mango.vim'
+" Plug 'goatslacker/mango.vim'
 Plug 'vim-pandoc/vim-pandoc'
 Plug 'Shougo/neoinclude.vim'
 Plug 'tpope/vim-markdown', { 'for': 'markdown' }
 Plug 'pearofducks/ansible-vim'
 " Plug 'elixir-lang/vim-elixir'
-Plug 'wting/rust.vim', { 'for': 'rust '}
-Plug 'tpope/vim-dispatch'
+" Plug 'wting/rust.vim', { 'for': 'rust '}
+" Plug 'tpope/vim-dispatch'
 Plug 'lervag/vimtex', { 'for': 'latex' }
 Plug 'neomake/neomake'
 if !has('nvim')
         Plug 'tpope/vim-sensible'
 end
-Plug 'gkz/vim-ls', { 'for': 'livescript' }
+" Plug 'gkz/vim-ls', { 'for': 'livescript' }
 " Plug 'klen/python-mode'
-" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 " Plug 'zchee/deoplete-jedi'
-Plug 'othree/javascript-libraries-syntax.vim', { 'for': 'javascript' }
+" Plug 'othree/javascript-libraries-syntax.vim', { 'for': 'javascript' }
 Plug 'Shougo/context_filetype.vim'
 Plug 'SirVer/ultisnips'
-Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
-Plug 'mitsuhiko/vim-jinja', { 'for': 'jinja2' }
-Plug 'itchyny/landscape.vim'
-Plug 'othree/es.next.syntax.vim', { 'for': 'javascript' }
-Plug 'wavded/vim-stylus', { 'for': 'stylus' }
+" Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
+" Plug 'mitsuhiko/vim-jinja', { 'for': 'jinja2' }
+" Plug 'itchyny/landscape.vim'
+" Plug 'othree/es.next.syntax.vim', { 'for': 'javascript' }
+" Plug 'wavded/vim-stylus', { 'for': 'stylus' }
 Plug 'editorconfig/editorconfig-vim'
 Plug 'vim-pandoc/vim-pandoc-syntax', { 'for': 'pandoc' }
-Plug 'flazz/vim-colorschemes'
+" Plug 'flazz/vim-colorschemes'
 Plug 'othree/html5.vim', { 'for': 'html' }
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-haml', { 'for': 'haml' }
+" Plug 'tpope/vim-fugitive'
+" Plug 'tpope/vim-haml', { 'for': 'haml' }
 Plug 'RaitoBezarius/vim-snippets'
-Plug 'heavenshell/vim-jsdoc', { 'for': 'javascript' }
+" Plug 'heavenshell/vim-jsdoc', { 'for': 'javascript' }
 Plug 'elzr/vim-json', { 'for': 'json' }
-Plug 'othree/yajs.vim', { 'for': 'javascript' }
+" Plug 'othree/yajs.vim', { 'for': 'javascript' }
 " Plug 'digitaltoad/vim-pug'
-Plug 'nanotech/jellybeans.vim'
-Plug '~/.vim/bundle/tmux-config'
-Plug 'morhetz/gruvbox'
+" Plug 'nanotech/jellybeans.vim'
+" Plug '~/.vim/bundle/tmux-config'
+" Plug 'morhetz/gruvbox'
 Plug 'Shougo/echodoc'
-Plug 'dylanaraps/wal'
-Plug 'altercation/vim-colors-solarized'
+" Plug 'dylanaraps/wal'
+Plug 'romainl/flattened'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
 call plug#end()
 
+set nocompatible
 " Syntax highlighting
 syntax on
 filetype plugin indent on
@@ -103,11 +109,21 @@ set pastetoggle=<F2>
 set expandtab
 " Clipboard X11
 set clipboard+=unnamedplus
+" Required for operations modifying multiple buffers like rename.
+set hidden
+
+let g:LanguageClient_serverCommands = {
+        \ 'ocaml': ['/home/raito/.nvm/versions/node/v7.10.1/bin/ocaml-language-server', '--stdio']
+        \}
+let g:LanguageClient_loggingLevel = 'DEBUG'
+
+
+nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
+nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
+nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
 
 set t_Co=256
-let g:solarized_termcolors=256
-
-colorscheme solarized
+colorscheme flattened_dark
 set termguicolors
 set background=dark
 
@@ -124,8 +140,8 @@ autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 
 " Python-specific
-let g:python3_host_prog="/home/raito/.virtualenvs/neovim/bin/python3"
-let g:python_host_prog="/home/raito/.virtualenvs/neovim2/bin/python2"
+let g:python3_host_prog="/usr/bin/python"
+let g:python_host_prog="/usr/bin/python"
 let g:python2_host_prog="/home/raito/.virtualenvs/neovim2/bin/python2"
 " Python specific
 augroup Python
@@ -170,6 +186,36 @@ let g:pandoc#command#autoexec_on_writes = 1
 let g:pandoc#command#autoexec_command = 'Pandoc! pdf'
 let g:pandoc#syntax#conceal#use = 0
 
+let g:pandoc#command#custom_open = "MyPandocOpen"
+
+function! MyPandocOpen(file)
+        let file = shellescape(fnamemodify(a:file, ':p'))
+        let file_extension = fnamemodify(a:file, ':e')
+        if file_extension is? 'pdf'
+                if !empty($PDFVIEWER)
+                        return expand('$PDFVIEWER') . ' ' . file
+                elseif executable('evince')
+                        return 'evince ' . file
+                elseif executable('mupdf')
+                        return 'mupdf ' . file
+                endif
+        elseif file_extension is? 'html' 
+                if !empty($BROWSER)
+                        return expand('$BROWSER') . ' ' . file
+                elseif executable('firefox')
+                        return 'firefox ' . file
+                elseif executable('chromium')
+                        return 'chromium ' . file
+                endif
+        elseif file_extension is? 'odt' && executable('okular')
+                return 'okular ' . file
+        elseif file_extension is? 'epub' && executable('okular')
+                return 'okular ' . file
+        else
+                return 'xdg-open ' . file
+        endif
+endfunction
+
 let maplocalleader = ','
 
 " Use a blinking upright bar cursor in Insert mode, a blinking block in normal
@@ -202,12 +248,6 @@ augroup LaTeX
         autocmd FileType tex nmap <silent> ,v :VimtexView<CR>
 augroup end
 
-" OCaml specific
-augroup OCaml
-        autocmd FileType ocaml set expandtab
-        autocmd FileType ocaml source '"$(opam config var prefix)"/ocp-indent/vim/indent/ocp-indent.vim'
-augroup end
-
 " Powerline related
 let g:airline_theme='luna'
 let g:airline_powerline_fonts = 1
@@ -229,3 +269,49 @@ autocmd FileType fish setlocal textwidth=79
 
 " Enable folding of block structures in fish.
 autocmd FileType fish setlocal foldmethod=expr
+
+" Enable deoplete when InsertEnter.
+let g:deoplete#enable_at_startup = 0
+autocmd InsertEnter * call deoplete#enable()
+let g:deoplete#complete_method = "complete"
+let g:deoplete#ignore_sources = {}
+let g:deoplete#ignore_sources.ocaml = ['buffer', 'around']
+let g:deoplete#auto_complete_delay = 30
+
+" ## added by OPAM user-setup for vim / base ## 93ee63e278bdfc07d1139a748ed3fff2 ## you can edit, but keep this line
+let s:opam_share_dir = system("opam config var share")
+let s:opam_share_dir = substitute(s:opam_share_dir, '[\r\n]*$', '', '')
+
+let s:opam_configuration = {}
+
+function! OpamConfOcpIndent()
+  execute "set rtp^=" . s:opam_share_dir . "/ocp-indent/vim"
+endfunction
+let s:opam_configuration['ocp-indent'] = function('OpamConfOcpIndent')
+
+function! OpamConfOcpIndex()
+  execute "set rtp+=" . s:opam_share_dir . "/ocp-index/vim"
+endfunction
+let s:opam_configuration['ocp-index'] = function('OpamConfOcpIndex')
+
+function! OpamConfMerlin()
+  let l:dir = s:opam_share_dir . "/merlin/vim"
+  execute "set rtp+=" . l:dir
+endfunction
+let s:opam_configuration['merlin'] = function('OpamConfMerlin')
+
+let s:opam_packages = ["ocp-indent", "ocp-index"]
+let s:opam_check_cmdline = ["opam list --installed --short --safe --color=never"] + s:opam_packages
+let s:opam_available_tools = split(system(join(s:opam_check_cmdline)))
+for tool in s:opam_packages
+  " Respect package order (merlin should be after ocp-index)
+  if count(s:opam_available_tools, tool) > 0
+    call s:opam_configuration[tool]()
+  endif
+endfor
+" ## end of OPAM user-setup addition for vim / base ## keep this line
+" ## added by OPAM user-setup for vim / ocp-indent ## 10cfda0ef3402ca18a1d7e9a23712777 ## you can edit, but keep this line
+if count(s:opam_available_tools,"ocp-indent") == 0
+  source "/home/raito/.opam/4.05.0/share/vim/syntax/ocp-indent.vim"
+endif
+" ## end of OPAM user-setup addition for vim / ocp-indent ## keep this line
