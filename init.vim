@@ -1,1 +1,1 @@
-/home/raito/.vimrc
+vimrc

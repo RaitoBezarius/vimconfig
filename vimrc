@@ -4,7 +4,8 @@ endif
 
 call plug#begin('~/.vim/plugged')
 
-Plug 'let-def/ocp-indent-vim'
+Plug 'leafgarland/typescript-vim'
+" Plug 'let-def/ocp-indent-vim'
 " Plug 'ocaml/merlin'
 Plug 'autozimu/LanguageClient-neovim', {
     \ 'branch': 'next',
@@ -62,6 +63,7 @@ Plug 'elzr/vim-json', { 'for': 'json' }
 Plug 'Shougo/echodoc'
 " Plug 'dylanaraps/wal'
 Plug 'romainl/flattened'
+Plug 'mhartington/oceanic-next'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
@@ -123,7 +125,9 @@ nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
 nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
 
 set t_Co=256
-colorscheme flattened_dark
+colorscheme OceanicNext
+let g:oceanic_next_terminal_bold = 1
+let g:oceanic_next_terminal_italic = 1
 set termguicolors
 set background=dark
 
@@ -249,7 +253,8 @@ augroup LaTeX
 augroup end
 
 " Powerline related
-let g:airline_theme='luna'
+" let g:airline_theme='luna'
+let g:airline_theme='oceanicnext'
 let g:airline_powerline_fonts = 1
 
 " Ensure that EditorConfig works well with Fugitive
@@ -277,41 +282,3 @@ let g:deoplete#complete_method = "complete"
 let g:deoplete#ignore_sources = {}
 let g:deoplete#ignore_sources.ocaml = ['buffer', 'around']
 let g:deoplete#auto_complete_delay = 30
-
-" ## added by OPAM user-setup for vim / base ## 93ee63e278bdfc07d1139a748ed3fff2 ## you can edit, but keep this line
-let s:opam_share_dir = system("opam config var share")
-let s:opam_share_dir = substitute(s:opam_share_dir, '[\r\n]*$', '', '')
-
-let s:opam_configuration = {}
-
-function! OpamConfOcpIndent()
-  execute "set rtp^=" . s:opam_share_dir . "/ocp-indent/vim"
-endfunction
-let s:opam_configuration['ocp-indent'] = function('OpamConfOcpIndent')
-
-function! OpamConfOcpIndex()
-  execute "set rtp+=" . s:opam_share_dir . "/ocp-index/vim"
-endfunction
-let s:opam_configuration['ocp-index'] = function('OpamConfOcpIndex')
-
-function! OpamConfMerlin()
-  let l:dir = s:opam_share_dir . "/merlin/vim"
-  execute "set rtp+=" . l:dir
-endfunction
-let s:opam_configuration['merlin'] = function('OpamConfMerlin')
-
-let s:opam_packages = ["ocp-indent", "ocp-index"]
-let s:opam_check_cmdline = ["opam list --installed --short --safe --color=never"] + s:opam_packages
-let s:opam_available_tools = split(system(join(s:opam_check_cmdline)))
-for tool in s:opam_packages
-  " Respect package order (merlin should be after ocp-index)
-  if count(s:opam_available_tools, tool) > 0
-    call s:opam_configuration[tool]()
-  endif
-endfor
-" ## end of OPAM user-setup addition for vim / base ## keep this line
-" ## added by OPAM user-setup for vim / ocp-indent ## 10cfda0ef3402ca18a1d7e9a23712777 ## you can edit, but keep this line
-if count(s:opam_available_tools,"ocp-indent") == 0
-  source "/home/raito/.opam/4.05.0/share/vim/syntax/ocp-indent.vim"
-endif
-" ## end of OPAM user-setup addition for vim / ocp-indent ## keep this line
